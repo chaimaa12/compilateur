@@ -1,0 +1,37 @@
+
+> package.json@1.0.0 start /Users/chams/Downloads/mycompiler-master
+> babel-node main.js "hello_world.js"
+
+
+--- Tokens ----------
+
+[ Token { type: 'variable-declaraction', value: 'var', pos: 0 },
+  Token { type: 'identifier', value: 'test', pos: 4 },
+  Token { type: 'equal', value: '=', pos: 9 },
+  Token { type: 'object-string', value: '"hello world"', pos: 11 },
+  Token { type: 'instruction-end', value: ';', pos: 24 },
+  Token { type: 'line-break', value: '\n', pos: 25 },
+  Token { type: 'console-object', value: 'console', pos: 26 },
+  Token { type: 'point', value: '.', pos: 33 },
+  Token { type: 'identifier', value: 'log', pos: 34 },
+  Token { type: 'parenthesis-start', value: '(', pos: 37 },
+  Token { type: 'identifier', value: 'test', pos: 38 },
+  Token { type: 'parenthesis-end', value: ')', pos: 42 },
+  Token { type: 'instruction-end', value: ';', pos: 43 } ]
+
+--- AST -------------
+
+{ body: 
+   [ { type: 'VariableDeclarationExpression', value: 'test' },
+     { type: 'VariableAssignationExpression',
+       identifier: 'test',
+       value: [Token] },
+     { type: 'ConsoleUseMethodeExpression',
+       methode: 'log',
+       arguments: [Array] } ] }
+
+--- Transformation --
+
+[ { type: 'VariableDeclarationExpression', note: 5 },
+  { type: 'VariableAssignationExpression', note: 5 },
+  { type: 'ConsoleUseMethodeExpression', note: 5 } ]
