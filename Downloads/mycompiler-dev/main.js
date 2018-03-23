@@ -22,9 +22,9 @@ if (fs.existsSync(entryPoint)) {
 	console.log("\n--- AST ----------\n");
 	let ast = ASTParser.parse(tokens);
 	console.log(ast);
-  //} catch (e) {
-    //printError(e);
-  //}
+/*  } catch (e) {
+    printError(e);
+  }*/
 } else{
   printError(`Could not find the entry point \`${chalk.magenta(entryPoint)}\``)  
 }

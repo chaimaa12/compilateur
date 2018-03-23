@@ -31,8 +31,8 @@ export default class ASTParser{
 				case 'echo':
 					continue;
 				case 'php-declaration-debut':
-/*					console.log("cursor php");
-					console.log(cursor);*/
+					console.log("cursor php");
+					console.log(cursor);
 					let exp = ExpressionFactory.create(cursor, tokens);
 					if(exp){
 						instance.addExpToTree(exp);
@@ -42,10 +42,10 @@ export default class ASTParser{
 					break;
 					//continue;
 				case 'var':
-/*					console.log("cursor var");
+					console.log("cursor var");
 					console.log(cursor);
 					console.log(tokens[cursor.position]);
-					console.log(current_token);*/
+					console.log(current_token);
 					
 					let exp2 = ExpressionFactory.create(cursor, tokens);
 					//console.log(exp2);
@@ -59,38 +59,41 @@ export default class ASTParser{
 				console.log('class');
 				console.log(tokens[cursor.position]);
 					let exp_class = ExpressionFactory.create(cursor, tokens);
+					console.log(exp_class);
 					if(exp_class){
 						instance.addExpToTree(exp_class);
 					}else{
 						throw `error Class`
 					}
-					break;
+					//break;
 				case 'public':
-					let exp_public = ExpressionFactory(cursor, tokens);
+/*					let exp_public = ExpressionFactory.create(cursor, tokens);
 					console.log("TEST");
 					console.log(exp_public);
 					if(exp_public){
 						instance.addExpToTree(exp_public);
 					}else{
 						throw 'error in public (-1)';
-					}
+					}*/
 					break;
 				case 'function':
 					console.log('function');
 					console.log(tokens[cursor.position]);
-					let exp_function = ExpressionFactory(cursor, tokens);
+					let exp_function = ExpressionFactory.create(cursor, tokens);
+					console.log(exp_function);
 					if(exp_function){
 						instance.addExpToTree(exp_function);
 					}else{
 						throw 'error function (-2)';
 					}
 				default:
-/*					let exp = ExpressionFactory.create(cursor, tokens);
-					if(exp){
-						instance.addExpToTree(exp);
+					let exp_default = ExpressionFactory.create(cursor, tokens);
+
+					if(exp_default){
+						instance.addExpToTree(exp_default);
 					}else{
 						throw `grammar error`
-					}*/
+					}
 					break;
 			}
 		}

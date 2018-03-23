@@ -4,7 +4,7 @@ export default class NameFunction extends Expression{
 	
 	constructor(token){
 		console.log(token);
-		if(token.type=="identifier"){
+		if(token.type=="chaine_string"){
 
 			super("NameFunction");
 			this.name= token.value;

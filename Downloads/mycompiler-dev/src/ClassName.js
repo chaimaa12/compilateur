@@ -3,8 +3,9 @@ import Expression from "./Expression.js";
 export default class ClassName extends Expression{
 	
 	constructor(token){
+		console.log('ICI');
 		console.log(token);
-		if(token.type=="identifier"){
+		if(token.type=="chaine_string"){
 
 			super("ClassName");
 			this.name= token.value;

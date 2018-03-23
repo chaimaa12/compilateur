@@ -23,6 +23,7 @@ export default class ExpressionFactory{
 				next = tokens[cursor.position];
 				return new ExpressionVarDeclaration(next);
 			case 'equal':
+			console.log("EQUAL222");
 				if(tokens[cursor.position-1].type=="space" && tokens[cursor.position-2].type=="identifier"){
 					cursor.position++
 					let next = tokens[cursor.position];
@@ -41,24 +42,30 @@ export default class ExpressionFactory{
 				//console.log(tokens[cursor.position-1]);
 				//if(tokens[cursor.position-1].type != "identifier"){
 					var flag_declaration_ended = false;
-					do{
-						cursor.position++
-						//let next = tokens[cursor.position];
-						switch(tokens[cursor.position].type){
 
-							case "php-declaration-end":
-								flag_declaration_ended = true;
-								break;
-							case "identifier":
-								flag_declaration_ended = false;
-								continue;
+						do{
+							cursor.position++
+							//let next = tokens[cursor.position];
+							//console.log("PHP DECLA");
+							//console.log(tokens[cursor.position]);
+							switch(tokens[cursor.position].type){
 
-						}
-					}while(tokens[cursor.position].type != "php-declaration-end");
+								case "php-declaration-end":
+									flag_declaration_ended = true;
+									break;
+								case "identifier":
+									flag_declaration_ended = false;
+									continue;
+
+							}
+						}while(tokens[cursor.position].type != "php-declaration-end");
+				
+
 					//cursor.position++
 					//let next = tokens[cursor.position];
 					
 					//console.log(tokens[cursor.position]);
+					
 					if(tokens[cursor.position].type === "space"){
 						throw "Problem in the declaraction of your php file";
 					}	
@@ -74,7 +81,7 @@ export default class ExpressionFactory{
 					//throw 'Error befuore declaration of your php file';
 				//}
 
-				break;
+				//break;
 			case 'php-declaration-end':
 /*				if(tokens[cursor.position+1].type == "line-break" || tokens[cursor.position+1].type == "space"){
 					cursor.position++
@@ -113,14 +120,15 @@ export default class ExpressionFactory{
 						cursor.position++
 
 
-/*						if (next.type == 'underscore') {
+						if (next.type == 'underscore') {
 
 							cursor.position++
 							next = tokens[cursor.position];
 							if(next.type != 'identifier'){
 								throw 'error after underscore in var declaration';
 							}
-						}*/
+
+						}
 						return new NameVariable(tokens[cursor.position]);
 
 					}
@@ -135,20 +143,23 @@ export default class ExpressionFactory{
 					throw 'need to put space after class';
 				}
 				cursor.position++
-				var position = cursor.position;
-				if(tokens[cursor.position].type == 'identifier'){
+				let position = cursor.position;
+				if(tokens[cursor.position].type == 'chaine_string'){
 						cursor.position++
 						if(tokens[cursor.position].type == 'accolade-start'){
 							var accolade_end = false;
 							var nb_accolade_start = 1;
 							var nb_accolade_end = 0;
+							cursor.position++
 
-							nb_accolade_start++
-							do{
+							//nb_accolade_start++
+/*							do{
 
 								cursor.position++
+								//console.log(tokens[cursor.position]);
 								switch(tokens[cursor.position].type){
 									case 'accolade-start':
+										//console.log("accolade-start");
 										nb_accolade_start++
 										break;
 									case 'accolade-end':
@@ -157,15 +168,41 @@ export default class ExpressionFactory{
 											accolade_end = true;
 										}
 										break;
+									default:
+										//cursor.position++
+										break;
+								}
 
-
-
+							}while(accolade_end != false);*/
+							
+							while(accolade_end == false){
+									cursor.position++
+									//console.log(tokens[cursor.position]);
+									switch(tokens[cursor.position].type){
+										case 'accolade-start':
+											//console.log("accolade-start");
+											nb_accolade_start++
+											break;
+										case 'accolade-end':
+											nb_accolade_end++
+											if(nb_accolade_start == nb_accolade_end){
+												accolade_end = true;
+											}
+											break;
+										default:
+											//cursor.position++
+											break;
 
 								}
-							}while(accolade_end == true);
+							}
+/*							console.log("NB ACCOLADE");
+							console.log(nb_accolade_start);
+							console.log(nb_accolade_end);
+							console.log(accolade_end);*/
+							if(accolade_end){
+								return new ClassName(tokens[position]);
 
-							console.log(accolade_end);
-							return new ClassName(tokens[cursor.position]);
+							}
 						}
 
 
@@ -177,7 +214,7 @@ export default class ExpressionFactory{
 				break;
 			case 'public':
 
-				cursor.position++
+/*				cursor.position++
 				if(tokens[cursor.position].type == 'space'){
 					cursor.position++
 					if(tokens[cursor.position].type == 'static' || tokens[cursor.position].type == 'function' || tokens[cursor.position].type == 'var'){
@@ -186,7 +223,7 @@ export default class ExpressionFactory{
 
 						throw 'error declaration public';
 					}
-				}
+				}*/
 				break;
 			case 'function':
 				//verifie si la fonction est bien defini par un public ou private ou meme un static 
@@ -195,8 +232,8 @@ export default class ExpressionFactory{
 
 						cursor.position++
 						if(tokens[cursor.position].type == 'space'){
-							cursor.position++
-							if(tokens[cursor.position].type == 'identifier'){
+							let position = cursor.position++
+							if(tokens[cursor.position].type == 'chaine_string'){
 								//parenthese ouvrante + case variable en parametres
 								cursor.position++
 								if(tokens[cursor.position].type == 'parenthesis-start'){
@@ -210,7 +247,9 @@ export default class ExpressionFactory{
 										var nb_accolade_start_function = 1;
 										var nb_accolade_end_function = 0;
 										var flag_closed_function = false;
-										do{
+
+										while(flag_closed_function == false){
+
 											cursor.position++
 											switch(tokens[cursor.position].type){
 												case 'accolade-start':
@@ -224,10 +263,23 @@ export default class ExpressionFactory{
 													}
 													break;
 											}
-										}while(flag_closed_function == true);
+
+										}
+
+										console.log(flag_closed_function);
+										if(flag_closed_function){
+
+											return new NameFunction(tokens[position]);
+										}
 									}
+								}else{
+									throw 'error missing parenthese for function declaration';
 								}
-							}
+							}else{
+							throw 'wrong type for function declaration';
+						}
+						}else{
+							throw 'error need space after public or private declaration';
 						}
 
 

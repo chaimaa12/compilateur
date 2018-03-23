@@ -1,7 +1,10 @@
 <?php
-classPersonnage{
+class Personnage{
 
-	function test(){
+	public function test(){
 
+		$var= 
 	}
 }
+
+?>
